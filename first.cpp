@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -27,25 +27,34 @@ using namespace std;
 		}
 
 
-		public: void wr_to_file(int end_file, const char * log_text, const char* file_name){
+		public: void wr_to_file(bool end_file, const char * text, const char* file_name){
 
-				if (end_file == '1'){
-					ofstream writef("main.txt", ios_base::trunc);
+				ofstream writef; // связываем файл с потоком ввода
+
+				if (end_file != true){
+					writef.open(file_name, ios_base::trunc);
 				}else{
-					ofstream writef("main.txt",ios_base::app);
+					writef.open(file_name, ios_base::app);
 				}
 				
-					writef<<log_text<<"\n";
+					writef<<text<<"\n";
 
+			writef.close();
 		}
 
+		public: char get_date(){
+				time_t seconds = time(NULL);
+				tm* timeinfo = localtime(&seconds);
+				string time = asctime(timeinfo);
+				 return time;
+		}
 //		public lock_file(){
 
 //		}
 
 	};
 
-
+/*
 		class logs{
 			
 
@@ -59,8 +68,33 @@ using namespace std;
 
 		};
 
+*/
 
-int main(){
+	class lab1{
+
+		public: void work_w_mass(){
+						go_file usegofile;
+						go_file time;
+
+			usegofile.wr_to_file(true,time.get_date(),"main.txt");
+	
+
+		}
+
+
+
+	};
+
+
+
+int main(int argc, char* argv[]){
+ 
+ /*+++++++++++++++++++++++++++++++++++++++++++++++++
+
+	argc - определяет количество параметров, передаваемых функции, включая имя самой программы. 
+	argv* - является указателем на массив указателей типа char.
+
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 	//logs LOG;
 	//LOG.addlog(1, "log");
@@ -70,9 +104,7 @@ int main(){
 
     usegofile.check_file("main.txt");
 
-
-
-    usegofile.wr_to_file(2, "}{yY", "main.txt");
+    usegofile.wr_to_file(true, "}{yY12", "main.txt");
 	//std:cout<<"'Hell world! =)'";
 		return 0;
 }
