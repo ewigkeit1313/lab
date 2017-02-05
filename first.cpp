@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <string>
 
 using namespace std;
 
@@ -14,13 +15,12 @@ using namespace std;
 	class go_file{
 
 
-		public: char* get_date(){
-				time_t seconds = time(NULL);
-				tm* timeinfo = localtime(&seconds);
-				char* time = asctime(timeinfo);
-				 return time;
+		public: std::string get_date(){
+ 				   std::time_t result = std::time(NULL);
+ 				   std::string time = std::asctime(std::localtime(&result));
+ 			return time.erase(time.find('\n'),1);
 		}
-
+/*
 		public: void check_file(const char * file_name){   //проверяем, есть ли файл, если его нет, то создаем! \(^_^)/
 			
 
@@ -33,19 +33,21 @@ using namespace std;
 					}
 				w_f.close(); 
 		}
-
+*/
 
 		public: void wr_to_file(bool end_file, const char * text, const char* file_name){
 
 				ofstream writef; // связываем файл с потоком ввода
 
-				if (end_file != true){
+				if (end_file != true){                          // усли true пишем в конец файла. Для логов!
 					writef.open(file_name, ios_base::trunc);
+					writef<<text<<endl;
 				}else{
-					writef.open(file_name, ios_base::app);
+					writef.open(file_name,ios_base::app);
+					writef<<get_date()  << " ---> " <<text << endl;
 				}
 				
-					writef<<  <<text<<"\n";
+					
 
 			writef.close();
 		}
@@ -56,29 +58,21 @@ using namespace std;
 
 	};
 
-/*
-		class logs{
-			
 
-			public: void addlog(){
-				go_file ADD;
-				ADD.check_file("logs.log");
-
-
-			}
-
-
-		};
-
-*/
 
 	class lab1{
 
 		public: void work_w_mass(){
-						go_file usegofile;
-						go_file time;
+			int mass_size;
+				go_file usegofile;
+				usegofile.wr_to_file(true, "зашли в класс lab1 ", "ladlog.log");
 
-			usegofile.wr_to_file(true,time.get_date(),"main.txt");
+			std::cout << "из скольки чисел будет состоять наш массив?";
+			std::cin>>mass_size;
+
+				//usegofile.wr_to_file(true, mass_size, "ladlog.log");
+			int
+
 		}
 
 
@@ -102,8 +96,8 @@ int main(int argc, char* argv[]){
 	lab1 lab_do;
 	go_file usegofile;
 
-    usegofile.check_file("main.txt");
-    usegofile.wr_to_file(true, "}{yY12", "main.txt");
+    //usegofile.check_file("main.txt");
+    usegofile.wr_to_file(true, "}{yY!", "main.txt");
 	//std:cout<<"'Hell world! =)'";
 
     lab_do.work_w_mass();
