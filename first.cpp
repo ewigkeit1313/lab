@@ -13,6 +13,14 @@ using namespace std;
 
 	class go_file{
 
+
+		public: char* get_date(){
+				time_t seconds = time(NULL);
+				tm* timeinfo = localtime(&seconds);
+				char* time = asctime(timeinfo);
+				 return time;
+		}
+
 		public: void check_file(const char * file_name){   //проверяем, есть ли файл, если его нет, то создаем! \(^_^)/
 			
 
@@ -37,17 +45,11 @@ using namespace std;
 					writef.open(file_name, ios_base::app);
 				}
 				
-					writef<<text<<"\n";
+					writef<<  <<text<<"\n";
 
 			writef.close();
 		}
 
-		public: char get_date(){
-				time_t seconds = time(NULL);
-				tm* timeinfo = localtime(&seconds);
-				string time = asctime(timeinfo);
-				 return time;
-		}
 //		public lock_file(){
 
 //		}
@@ -77,8 +79,6 @@ using namespace std;
 						go_file time;
 
 			usegofile.wr_to_file(true,time.get_date(),"main.txt");
-	
-
 		}
 
 
@@ -99,12 +99,14 @@ int main(int argc, char* argv[]){
 	//logs LOG;
 	//LOG.addlog(1, "log");
 
-
+	lab1 lab_do;
 	go_file usegofile;
 
     usegofile.check_file("main.txt");
-
     usegofile.wr_to_file(true, "}{yY12", "main.txt");
 	//std:cout<<"'Hell world! =)'";
+
+    lab_do.work_w_mass();
+
 		return 0;
 }
