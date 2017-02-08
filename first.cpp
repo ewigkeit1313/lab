@@ -35,7 +35,7 @@ using namespace std;
 		}
 */
 
-		public: void wr_to_file(bool end_file, const char * text, const char* file_name){
+		public: void wr_to_file(bool end_file, char text[], char file_name[]){
 
 				ofstream writef; // связываем файл с потоком ввода
 
@@ -63,15 +63,17 @@ using namespace std;
 	class lab1{
 
 		public: void work_w_mass(){
-			int mass_size;
+			char mass_size[6];
 				go_file usegofile;
 				usegofile.wr_to_file(true, "зашли в класс lab1 ", "ladlog.log");
 
 			std::cout << "из скольки чисел будет состоять наш массив?";
 			std::cin>>mass_size;
 
+			//char text_log = strcat(mass_size,2);
+
+			usegofile.wr_to_file(true,mass_size, "ladlog.log");
 				//usegofile.wr_to_file(true, mass_size, "ladlog.log");
-			int
 
 		}
 
