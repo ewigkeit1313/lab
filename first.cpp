@@ -2,17 +2,44 @@
 #include <fstream>
 #include <ctime>
 #include <string>
+#include <string.h>
+#include <stdarg.h>
+
+#include <cstdlib>
 
 using namespace std;
 
 
 	// __________________----LOG----____________________
-		
+		 
 
 	//_______file__________________
 
 
 	class go_file{
+
+		public: char *concat(char *s1...){                            //ссылаемся на область памяти в которой лежит значение типа char  <-- укзатель
+			   va_list par;          //указатель на параметры списка
+			   char *cp;
+			   int len = strlen(s1); //длина 1-го параметра
+
+			   va_start(par,s1);     //начало переменного списка
+			 
+			   //цикл для определения общей длины параметров строк
+			   while(cp = va_arg(par, char *))
+				     len += strlen(cp); 
+			 
+			   //выделение памяти для результата
+			   char *stroka = new char[len + 1];
+			   strcpy(stroka, s1);
+			   va_start(par, s1);//начало переменного списка
+			   //цикл конкатенации параметров строк
+			   while(cp = va_arg(par, char *))
+			       		strcat(stroka, cp);
+			 
+			   va_end(par);
+			   return stroka;
+			}
 
 
 		public: std::string get_date(){
@@ -20,22 +47,10 @@ using namespace std;
  				   std::string time = std::asctime(std::localtime(&result));
  			return time.erase(time.find('\n'),1);
 		}
-/*
-		public: void check_file(const char * file_name){   //проверяем, есть ли файл, если его нет, то создаем! \(^_^)/
-			
 
-				fstream w_f(file_name);
 
-					if(!w_f){
-						cout<<"Такого файла нет, но я создам!"<<endl;
-						ofstream c_f(file_name);
-						c_f.close();
-					}
-				w_f.close(); 
-		}
-*/
 
-		public: void wr_to_file(bool end_file, char text[], char file_name[]){
+		public: void wr_to_file(bool end_file, char text[],const char file_name[]){
 
 				ofstream writef; // связываем файл с потоком ввода
 
@@ -47,7 +62,6 @@ using namespace std;
 					writef<<get_date()  << " ---> " <<text << endl;
 				}
 				
-					
 
 			writef.close();
 		}
@@ -63,16 +77,42 @@ using namespace std;
 	class lab1{
 
 		public: void work_w_mass(){
-			char mass_size[6];
-				go_file usegofile;
+ 		
+ 		char mass_size_log[1];
+		char *inlog;
+		int mass_size;
+		char znak;
+		int operand;
+
+
+			go_file usegofile; // Создаем объект класса. 
+
 				usegofile.wr_to_file(true, "зашли в класс lab1 ", "ladlog.log");
 
-			std::cout << "из скольки чисел будет состоять наш массив?";
-			std::cin>>mass_size;
+					cout << "из скольки чисел будет состоять наш массив? \n";
+					cin >> mass_size_log;
 
-			//char text_log = strcat(mass_size,2);
+						inlog = usegofile.concat("массив состоит из ",mass_size_log," элемента(ов)",NULL);
+					
+						//int count = atoi(mass_size);
+						mass_size = atoi(mass_size_log);    // Переведем чары в инты для работы с массивом. Криво, нужно будет переделать.
 
-			usegofile.wr_to_file(true,mass_size, "ladlog.log");
+							char mass[mass_size];			// Зададим размер нашего массива. 
+
+						for(int i=0; i<mass_size;i++){      //вводим массив
+							cout << i << " ---> ";
+							cin >> mass[i];
+						}
+
+						cout << "Введите знак ----> ";
+							cin >> znak;
+
+						cout << "Введите операнд ----> ";
+							cin >> operand;
+
+						
+
+				usegofile.wr_to_file(true, inlog, "ladlog.log");
 				//usegofile.wr_to_file(true, mass_size, "ladlog.log");
 
 		}
@@ -103,6 +143,9 @@ int main(int argc, char* argv[]){
 	//std:cout<<"'Hell world! =)'";
 
     lab_do.work_w_mass();
+
+
+
 
 		return 0;
 }
