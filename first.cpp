@@ -10,11 +10,28 @@
 using namespace std;
 
 
-	// __________________----LOG----____________________
-		 
 
-	//_______file__________________
+		//______________________Абстрактный класс и все для него______
+		
+		class abstract{
+			public:virtual void print_msg()=0;
+		};
 
+		class useAbsrtFunc:public abstract{		// Наследуемся абстрактного класса
+			void print_msg(){					//Реализация виртуальной функции в нашем классе
+				cout<<"Все проошло хорошо) \n";
+			}
+		};
+
+
+		void foo(abstract *p){   // Функция указатель на объект 
+			p->print_msg();		 // Вызываем метод print_msg
+		}
+		//___________________________________________
+
+
+
+//_______file__________________
 
 	class go_file{
 
@@ -78,7 +95,7 @@ using namespace std;
 
 		public: void work_w_mass(){
  		
- 		char mass_size_log[1];
+ 		char mass_size_log[100];
 		char *inlog;
 		int mass_size;
 		char znak;
@@ -89,7 +106,7 @@ using namespace std;
 
 				usegofile.wr_to_file(true, "зашли в класс lab1 ", "ladlog.log");
 
-					cout << "из скольки чисел будет состоять наш массив? \n";
+					cout << "из скольки чисел будет состоять наш массив? Макс 100\n";
 					cin >> mass_size_log;
 
 						inlog = usegofile.concat("массив состоит из ",mass_size_log," элемента(ов)",NULL);
@@ -144,7 +161,8 @@ int main(int argc, char* argv[]){
 
     lab_do.work_w_mass();
 
-
+    useAbsrtFunc u;    // юзаем абстракную функцию и объект(класс)
+    foo(&u);
 
 
 		return 0;
